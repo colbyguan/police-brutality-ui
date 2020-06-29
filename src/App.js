@@ -147,7 +147,12 @@ function App() {
   }
 
   const getLinkStyle = (link) => {
-    const url = new URL(link)
+    let url;
+    try {
+      url = new URL(link)
+    } catch (err) {
+      return 'opacity-50 border border-gray-400'
+    }
     for (const keyword of Object.keys(LINK_STYLES)) {
       if (url.host.includes(keyword)) {
         return LINK_STYLES[keyword]
@@ -157,7 +162,12 @@ function App() {
   }
 
   const getLinkLabel = (link) => {
-    const url = new URL(link)
+    let url;
+    try {
+      url = new URL(link)
+    } catch (err) {
+      return '(bad link)'
+    }
     return url.host;
   }
 

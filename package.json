@@ -14,7 +14,7 @@
     "react-dom": "^16.13.1",
     "react-scripts": "3.4.1"
   },
-  "homepage": "https://colbyguan.github.io/police-brutality-ui",
+  "homepage": "https://policebrutality.colby.cc",
   "scripts": {
     "predeploy": "npm run build:style && npm run build",
     "deploy": "gh-pages -d build",
