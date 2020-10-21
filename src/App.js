@@ -2,19 +2,16 @@ import React, { useState, useEffect } from 'react';
 import DataFrame from "dataframe-js";
 import './App.css';
 import { getOfficialAPIDataFrame } from './Client'
+import Sidebar from './components/Sidebar'
 
 const DATE_OPTIONS = { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC'}
 const DATE_FORMAT = new Intl.DateTimeFormat('en-US', DATE_OPTIONS)
 const CARD_DATE_OPTIONS = {
   year: 'numeric', month: 'numeric', day: 'numeric', timeZone: 'UTC'}
 const CARD_DATE_FORMAT = new Intl.DateTimeFormat('en-US', CARD_DATE_OPTIONS)
-const SIDEBAR_MODES = {
-  0: 'Browse all',
-  1: 'Browse by date',
-  2: 'Browse by state',
-}
+
 const LINK_STYLES = {
-  'twitter': 'bg-blue-500',
+  'twitter': 'bg-blue-500 text-gray-100',
   'reddit': 'bg-orange-400',
   'redd': 'bg-orange-400',
 }
@@ -92,17 +89,6 @@ function App() {
     }
   }
 
-  const getSidebarTuples = () => {
-    const mode = parseInt(sidebarMode)
-    if (mode === 0) {
-      return [];
-    } else if (mode === 1) {
-      return getUniqueDateCounts(allReports);
-    } else {
-      return getUniqueStateCounts(allReports);
-    }
-  }
-
   const getUniqueStateCounts = (df) => {
     const rawStates = df.unique('state').transpose().toArray()[0];
     const counts = {}
@@ -168,6 +154,14 @@ function App() {
     } catch (err) {
       return '(bad link)'
     }
+    if (url.host.includes('twitter.com') && url.pathname) {
+      let tokens = url.pathname.split('/')
+      let username;
+      if (tokens.length >= 2) {
+        username = tokens[1];
+      }
+      return '@' + username
+    }
     return url.host;
   }
 
@@ -176,28 +170,7 @@ function App() {
       <div className="my-6 text-3xl">Police Brutality During the 2020 George Floyd Protests</div>
       <div className="flex my-4">
         <div className="w-1/4">
-          {allReports !== null &&
-            <>
-              <div className="flex flex-col items-start mb-4">
-                {Object.keys(SIDEBAR_MODES).map(num => {
-                  return <div key={num}
-                              className={`cursor-pointer px-2 py-1 rounded-md ${parseInt(num) === parseInt(sidebarMode) ? 'bg-orange-200': ''}`}
-                              onClick={() => handleSidebarModeClick(num)}>
-                              {SIDEBAR_MODES[num]}</div>
-                })}
-              </div>
-              <div className="flex flex-col items-start">
-                {getSidebarTuples().map(tuple =>
-                  <div onClick={() => handleClickSidebarElem(tuple[2])}
-                       className={`cursor-pointer px-2 py-1 rounded-md transition-all ease-linear duration-300 hover:text-black
-                          ${isSidebarElemSelected(tuple[2]) ? 'font-semibold bg-orange-200 text-black' : 'text-gray-600'}`}
-                       key={tuple[2]}>
-                    <span>{tuple[0]}</span>
-                    <span className={`ml-2 px-1 rounded-md ${isSidebarElemSelected(tuple[2]) ? 'bg-orange-400' : 'bg-gray-400'}`}>{tuple[1]}</span>
-                  </div>)}
-              </div>
-            </>
-          }
+          <Sidebar {... {allReports, sidebarMode, setSidebarMode, selectedDate, setSelectedDate, selectedState, setSelectedState }} />
         </div>
         <div className="w-3/4">
           {selectedIncidents.map(incident => {
