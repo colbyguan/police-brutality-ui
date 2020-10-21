@@ -169,10 +169,10 @@ function App() {
     <div className="container mx-auto">
       <div className="my-6 text-3xl">Police Brutality During the 2020 George Floyd Protests</div>
       <div className="flex my-4">
-        <div className="w-1/4">
+        <div className="w-1/4 px-4">
           <Sidebar {... {allReports, sidebarMode, setSidebarMode, selectedDate, setSelectedDate, selectedState, setSelectedState }} />
         </div>
-        <div className="w-3/4">
+        <div className="w-3/4 px-4 overflow-y-scroll report-column" style={{'max-height': '90vh'}}>
           {selectedIncidents.map(incident => {
             if (new Date(incident.date).getFullYear() < 2020) {
               incident.date = null
