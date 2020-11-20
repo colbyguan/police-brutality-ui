@@ -100,7 +100,8 @@ const Sidebar = ({
                             )
                         })}
                     </div>
-                    <div className="flex flex-col items-start">
+                    <div className="sidebar-list-line h-px bg-gray-300 my-4"></div>
+                <div className="sidebar-list flex flex-col items-start overflow-y-scroll" style={{'max-height': '50vh'}}>
                         {getSidebarTuples().map(tuple =>
                             <div onClick={() => handleClickSidebarElem(tuple[2])}
                                 className={`cursor-pointer px-2 py-1 rounded-md transition-all ease-linear duration-300 hover:text-black
@@ -110,6 +111,7 @@ const Sidebar = ({
                                 <span className={`ml-2 px-1 rounded-md ${isSidebarElemSelected(tuple[2]) ? 'bg-orange-400' : 'bg-gray-400'}`}>{tuple[1]}</span>
                             </div>)}
                     </div>
+                    <div className="sidebar-list-line h-px bg-gray-300 my-4"></div>
                 </>
             }
         </>

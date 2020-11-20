@@ -1,1 +1,8 @@
 
+.sidebar-list, .report-column {
+    scrollbar-color: transparent transparent;
+    transition: all 0.3s;
+}
+.sidebar-list:hover, .report-column:hover {
+    scrollbar-color: grey transparent;
+}
