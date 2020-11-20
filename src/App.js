@@ -12,8 +12,10 @@ const CARD_DATE_FORMAT = new Intl.DateTimeFormat('en-US', CARD_DATE_OPTIONS)
 
 const LINK_STYLES = {
   'twitter': 'bg-blue-500 text-gray-100',
-  'reddit': 'bg-orange-400',
-  'redd': 'bg-orange-400',
+  'instagram': 'bg-pink-500 text-gray-100',
+  'reddit': 'bg-orange-500 text-gray-100',
+  'redd': 'bg-orange-500 text-gray-100',
+  'tiktok': 'bg-red-500 text-gray-100'
 }
 
 function App() {
@@ -161,6 +163,9 @@ function App() {
         username = tokens[1];
       }
       return '@' + username
+    }
+    if (url.host.startsWith("www.")) {
+      return url.host.substring(4)
     }
     return url.host;
   }

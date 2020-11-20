@@ -1,6 +1,7 @@
 import React from 'react'
 
-import { DATE_FORMAT, SIDEBAR_MODES } from '../constants'
+import { DATE_FORMAT, SIDEBAR_MODES, SIDEBAR_ROUTES } from '../constants'
+import { Route, Switch, Redirect, Link } from 'react-router-dom'
 
 const Sidebar = ({
     allReports,
@@ -81,12 +82,22 @@ const Sidebar = ({
         <>
             {allReports !== null &&
                 <>
-                    <div className="flex flex-col items-start">
+                    <Switch>
+                        <Route path="/">
+                            <Redirect to="/bydate" />
+                        </Route>
+                    </Switch>
+                    <div className="flex flex-col items-start mb-4">
                         {Object.keys(SIDEBAR_MODES).map(num => {
-                            return <div key={num}
-                                className={`cursor-pointer px-2 py-1 rounded-md ${parseInt(num) === parseInt(sidebarMode) ? 'bg-orange-200' : ''}`}
-                                onClick={() => handleSidebarModeClick(num)}>
-                                {SIDEBAR_MODES[num]}</div>
+                            return (
+                                <div key={num}
+                                    className={`cursor-pointer px-2 py-1 rounded-md ${parseInt(num) === parseInt(sidebarMode) ? 'bg-orange-200' : ''}`}
+                                    onClick={() => handleSidebarModeClick(num)}>
+                                    <Link to={SIDEBAR_ROUTES[num]}>
+                                        {SIDEBAR_MODES[num]}
+                                    </Link>
+                                </div>
+                            )
                         })}
                     </div>
                     <div className="sidebar-list-line h-px bg-gray-300 my-4"></div>
